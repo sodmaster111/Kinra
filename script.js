@@ -1,8 +1,15 @@
-// Помещаем за пределы обработчика, чтобы переменные были доступны везде
-const SUPABASE_URL = 'https://iujopqhajvardqtlbntc.supabase.co';
-const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Iml1am9wcWhhanZhcmRxdGxibnRjIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTQwMzM3NjgsImV4cCI6MjA2OTYwOTc2OH0.eDsatkqWeoZyWJQCzpUf7JAbOc5L0eJ9vnfATKyeMFA';
-const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+// Динамический импорт решает проблему с порядком загрузки
+import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm';
 
+// 1. ЗАМЕНИТЕ ЭТИ ДАННЫЕ НА ВАШИ КЛЮЧИ ИЗ SUPABASE
+const SUPABASE_URL = 'https://iujopqhajvardqtlbntc.supabase.co'; 
+const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Iml1am9wcWhhanZhcmRxdGxibnRjIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTQwMzM3NjgsImV4cCI6MjA2OTYwOTc2OH0.eDsatkqWeoZyWJQCzpUf7JAbOc5L0eJ9vnfATKyeMFA'; 
+// =================================================
+
+// Инициализируем клиент Supabase сразу после импорта
+const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+// Основная логика приложения
 document.addEventListener('DOMContentLoaded', function() {
   try {
     const tg = window.Telegram.WebApp;
@@ -39,13 +46,13 @@ async function fetchAndDisplayTasks() {
 
   if (error) {
     console.error("Ошибка при чтении из Supabase:", error);
-    taskListContainer.innerHTML = `<p>Не удалось загрузить задания. Ошибка: ${error.message}</p>`;
+    taskListContainer.innerHTML = `<p>Не удалось загрузить задания. Проверьте консоль (F12).</p>`;
     return;
   }
 
   if (tasks.length === 0) {
-    taskListContainer.innerHTML = '<p>Новых заданий пока нет.</p>';
-    return;
+      taskListContainer.innerHTML = '<p>Новых заданий пока нет.</p>';
+      return;
   }
 
   taskListContainer.innerHTML = '';
